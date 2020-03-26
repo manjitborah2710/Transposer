@@ -1,0 +1,15 @@
+#form1{
+    width: fit-content;
+    margin: 2px auto;
+}
+.org{
+    color:red;
+}
+.fin{
+    color: #34ce57;
+}
+.title-blue{
+    color:blue;
+    text-decoration: underline;
+    font-weight: bold;
+}
