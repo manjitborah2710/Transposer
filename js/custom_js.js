@@ -27,9 +27,13 @@ function convert(){
 
 
     if(org_key!="" && fin_key!="" && type!=""){
-
+        var rm=false;
         org_key=Number(org_key);
         fin_key=Number(fin_key);
+        if(fin_key==12) {
+            fin_key=org_key;
+            rm=true;
+        }
         type=Number(type);
         var type_of_key=type_of_key_det[type];
 
@@ -50,14 +54,33 @@ function convert(){
         }
 
 
-        var result_str="<span class='title-blue'>Resultant Chord Sheet</span><br>";
-        result_str+="<span><b>"+notes[org_key]+" "+type_of_key+"</b></span> to <span><b>"+notes[fin_key]+" "+type_of_key+"</b></span><br>"
-        for(var i=0;i<chords_in_org_key.length;i++){
-            result_str+="<span class='org'>"+chords_in_org_key[i]+"</span>"+" ---> "+"<span class='fin'>"+chords_in_fin_key[i]+"</span><br>";
+        if(rm){
+            var start;
+            if(type_of_key=="minor") start=2;
+            else start=5;
+            var result_str="<span class='title-blue'>The <b>relative "+type_of_key_det[(type+1)%2]+"</b> key of <b>"+chords_in_org_key[0]+"</b> is <b>"+chords_in_org_key[start]+"</b> and the chords are</span><br>";
+            result_str+="Key : <span><b>"+chords_in_org_key[start]+"</b></span><br>"
+
+            for(var i=0;i<chords_in_org_key.length;i++){
+                result_str+="<span class='fin'>"+chords_in_fin_key[(i+start)%chords_in_fin_key.length]+"</span>&nbsp;&nbsp;&nbsp;";
+            }
+            result_str+="<br>"
+
+            var res=document.getElementById("res-p");
+            res.innerHTML=result_str;
         }
 
-        var res=document.getElementById("res-p");
-        res.innerHTML=result_str;
+        else{
+            var result_str="<span class='title-blue'>Resultant Chord Sheet</span><br>";
+            result_str+="<span><b>"+notes[org_key]+" "+type_of_key+"</b></span> to <span><b>"+notes[fin_key]+" "+type_of_key+"</b></span><br>"
+            for(var i=0;i<chords_in_org_key.length;i++){
+                result_str+="<span class='org'>"+chords_in_org_key[i]+"</span>"+" ---> "+"<span class='fin'>"+chords_in_fin_key[i]+"</span><br>";
+            }
+
+            var res=document.getElementById("res-p");
+            res.innerHTML=result_str;
+        }
+
     }
     else {
         alert("You must choose all the 3 options");
